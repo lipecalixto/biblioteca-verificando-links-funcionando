@@ -1,5 +1,6 @@
 import fs from 'fs';
 import chalk from 'chalk';
+import { deflate } from 'zlib';
 
 //função para teste
 function pegaArquivoSinc(caminho) {
@@ -29,7 +30,7 @@ function extraiLinks(texto) {
     const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
     const capturas = [...texto.matchAll(regex) ];
     const resultados = capturas.map(captura => ({[captura[1]]: captura[2]}))
-    return resultados
+    return resultados.length !== 0 ? resultados : 'Não tem links no arquivo'
 }
 
 function trataErro(e) {
@@ -46,10 +47,16 @@ async function pegaArquivoAsync(caminho) {
         const texto2 = await fs.promises.readFile(caminho, 'utf-8')
         console.log(texto2)
 
+        console.log('----------------------------------------------------------------------------------')
+        
         console.log(extraiLinks(texto2))
+
+        console.log('----------------------------------------------------------------------------------')
+        
+        return extraiLinks(texto2)
     } catch (erro) {
         trataErro(erro)
     }
 }
 
-pegaArquivoAsync('./arquivos/texto.md')
+export default pegaArquivoAsync
