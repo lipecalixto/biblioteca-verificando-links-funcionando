@@ -1,12 +1,31 @@
-import pegaArquivoAsync from "./index.js"
-import chalk from "chalk"
-
+import chalk from 'chalk'
+import fs from 'fs'
+import pegaArquivoAsync from './index.js'
 
 const caminho = process.argv
 
-async function processoTexto (caminho) {
-    const resultado = await pegaArquivoAsync(caminho[2])
-
+function mostraLista (lista) {
+    console.log(chalk.red('lista de links'), lista)
 }
 
-processoTexto(caminho)
+async function processaTexto(argumentos) {
+    const caminho = argumentos[2]
+
+    if (fs.lstatSync(caminho).isFile()) {
+        mostraLista(await pegaArquivoAsync(argumentos[2]))
+        return
+    }
+    
+    if (fs.lstatSync(caminho).isDirectory()) {
+        const arquivos = await fs.promises.readdir(caminho)
+
+        arquivos.forEach(async (nomeArquivo)  => {
+            const lista = await pegaArquivoAsync(`${caminho}/${nomeArquivo}`)
+            mostraLista(lista)
+            
+            return
+        })
+    }
+}
+
+processaTexto(caminho)
