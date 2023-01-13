@@ -41,17 +41,9 @@ async function pegaArquivoAsync(caminho) {
     try {
         // não retorna
         const texto = fs.promises.readFile(caminho, 'utf-8')
-        console.log(texto)
 
         //retorna
         const texto2 = await fs.promises.readFile(caminho, 'utf-8')
-        console.log(texto2)
-
-        console.log('----------------------------------------------------------------------------------')
-        
-        console.log(extraiLinks(texto2))
-
-        console.log('----------------------------------------------------------------------------------')
         
         return extraiLinks(texto2)
     } catch (erro) {
