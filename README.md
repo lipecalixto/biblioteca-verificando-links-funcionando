@@ -1,4 +1,4 @@
-# Curso Node.js: criando sua primeira biblioteca
+# Curso Node.js (Alura): criando sua primeira biblioteca
  
  Projeto realizado no link: https://cursos.alura.com.br/course/nodejs-criando-primeira-biblioteca
  
